@@ -1133,5 +1133,9 @@
   "iperfErrorServer": "The server rejected the test (error {code})",
   "iperfErrorPortInUse": "Port {port} is already in use. Try another port",
   "iperfErrorListen": "Couldn't start the server",
-  "iperfResult": "Result"
+  "iperfResult": "Result",
+  "speedTestUrl": "Speed test URL",
+  "speedTestConcurrency": "Speed test concurrency",
+  "speed": "Speed",
+  "testButton": "Test"
 }

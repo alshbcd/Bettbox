@@ -197,6 +197,99 @@ Future<void> delayTest(
   await delayTestCoordinator.run(groupName, runTest);
 }
 
+Future<void> _runWithConcurrency<T>(
+  List<T> items,
+  int concurrency,
+  Future<void> Function(T item) task,
+) async {
+  if (items.isEmpty) return;
+  final limit = concurrency < 1 ? 1 : concurrency;
+  var nextIndex = 0;
+  final running = <Future<void>>{};
+  while (nextIndex < items.length || running.isNotEmpty) {
+    while (nextIndex < items.length && running.length < limit) {
+      final item = items[nextIndex++];
+      late final Future<void> future;
+      future = task(item).whenComplete(() {
+        running.remove(future);
+      });
+      running.add(future);
+    }
+    if (running.isNotEmpty) {
+      await Future.any(running);
+    }
+  }
+}
+
+Future<void> _testProxySpeed(String proxyName, String? testUrl) async {
+  final appController = globalState.appController;
+  final state = appController.getProxyCardState(proxyName);
+  final delayUrl = appController.getRealTestUrl(
+    state.testUrl.getSafeValue(testUrl ?? ''),
+  );
+
+  appController.setSpeed(proxyName, -1);
+
+  final delay = await clashCore.getDelay(delayUrl, proxyName);
+  if (delay.value == null || delay.value! <= 0) {
+    appController.setSpeed(proxyName, null);
+    return;
+  }
+
+  try {
+    final result = await clashCore.getSpeed(
+      proxyName,
+      globalState.config.appSetting.speedTestUrl,
+    );
+    appController.setSpeed(proxyName, result.speed);
+  } catch (e) {
+    commonPrint.warn('speed test failed [$proxyName]: $e');
+    appController.setSpeed(proxyName, null);
+  }
+}
+
+Future<void> proxySpeedTest(Proxy proxy, {String? testUrl}) async {
+  if (_isNonTestableProxy(proxy)) return;
+  final appController = globalState.appController;
+  final state = appController.getProxyCardState(proxy.name);
+  if (state.proxyName.isEmpty) return;
+  appController.setShowSpeed(true);
+  await _testProxySpeed(state.proxyName, testUrl);
+  appController.addSortNum();
+}
+
+Future<void> speedTest(
+  List<Proxy> proxies, {
+  String? testUrl,
+  String? groupName,
+  Future<void> Function()? onSpeedUpdated,
+}) async {
+  Future<void> runTest() async {
+    final appController = globalState.appController;
+    appController.setShowSpeed(true);
+    final concurrency = globalState.config.appSetting.speedTestConcurrency;
+    final names = <String>{};
+    for (final proxy in proxies) {
+      if (_isNonTestableProxy(proxy)) continue;
+      final state = appController.getProxyCardState(proxy.name);
+      if (state.proxyName.isEmpty) continue;
+      if (_isNonTestableProxyName(state.proxyName)) continue;
+      names.add(state.proxyName);
+    }
+    await _runWithConcurrency(names.toList(), concurrency, (name) async {
+      await _testProxySpeed(name, testUrl);
+      await onSpeedUpdated?.call();
+    });
+    appController.addSortNum();
+  }
+
+  if (groupName == null || groupName.isEmpty) {
+    await runTest();
+    return;
+  }
+  await delayTestCoordinator.run(groupName, runTest);
+}
+
 double getScrollToSelectedOffset({
   required String groupName,
   required List<Proxy> proxies,

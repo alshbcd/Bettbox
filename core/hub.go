@@ -5,10 +5,13 @@ import (
 	"context"
 	"core/state"
 	"core/toolbox"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"math"
 	"net"
+	nhttp "net/http"
+	"net/url"
 	"os"
 	"regexp"
 	"runtime"
@@ -428,6 +431,130 @@ func handleAsyncTestDelay(paramsString string, fn func(string)) {
 
 		delayData.Value = int32(delay)
 		data, _ := json.Marshal(delayData)
+		fn(string(data))
+		return false, nil
+	})
+}
+
+// handleProxySpeedTest 通过指定代理直连测速地址，测量下载速率（单位：字节/秒）。
+// 走 proxy.DialContext 建立裸连接后交给 http.Transport，不切换全局代理，
+// 因此多个代理可以并发测速且不影响用户当前流量。
+func handleProxySpeedTest(paramsString string, fn func(string)) {
+	mBatch.Go(paramsString, func() (bool, error) {
+		var params = &ProxySpeedTestParams{}
+		err := json.Unmarshal([]byte(paramsString), params)
+		if err != nil {
+			fn("")
+			return false, nil
+		}
+
+		speedResult := &ProxySpeedResult{
+			Name: params.ProxyName,
+		}
+
+		fail := func() (bool, error) {
+			data, _ := json.Marshal(speedResult)
+			fn(string(data))
+			return false, nil
+		}
+
+		if params.ProxyName == "" || params.Url == "" || params.Timeout <= 0 {
+			return fail()
+		}
+
+		proxy, ok := toolbox.FindProxy(params.ProxyName)
+		if !ok || proxy == nil {
+			return fail()
+		}
+
+		parsedUrl, err := url.Parse(params.Url)
+		if err != nil || parsedUrl.Hostname() == "" {
+			return fail()
+		}
+
+		dstPort := uint16(80)
+		if portStr := parsedUrl.Port(); portStr != "" {
+			port, convErr := strconv.Atoi(portStr)
+			if convErr != nil || port <= 0 || port > 65535 {
+				return fail()
+			}
+			dstPort = uint16(port)
+		} else if parsedUrl.Scheme == "https" {
+			dstPort = 443
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), time.Millisecond*time.Duration(params.Timeout))
+		defer cancel()
+
+		metadata := constant.Metadata{
+			NetWork: constant.TCP,
+			Host:    parsedUrl.Hostname(),
+			DstPort: dstPort,
+		}
+
+		proxyConn, err := proxy.DialContext(ctx, &metadata)
+		if err != nil {
+			return fail()
+		}
+		defer proxyConn.Close()
+
+		transport := &nhttp.Transport{
+			DialContext: func(context.Context, string, string) (net.Conn, error) {
+				return proxyConn, nil
+			},
+			MaxIdleConns:          1,
+			IdleConnTimeout:       90 * time.Second,
+			TLSHandshakeTimeout:   10 * time.Second,
+			ExpectContinueTimeout: 1 * time.Second,
+		}
+
+		if parsedUrl.Scheme == "https" {
+			transport.TLSClientConfig = &tls.Config{
+				MinVersion: tls.VersionTLS12,
+			}
+		}
+
+		client := nhttp.Client{
+			Timeout:   time.Duration(params.Timeout) * time.Millisecond,
+			Transport: transport,
+		}
+		defer client.CloseIdleConnections()
+
+		req, err := nhttp.NewRequestWithContext(ctx, nhttp.MethodGet, params.Url, nil)
+		if err != nil {
+			return fail()
+		}
+
+		resp, err := client.Do(req)
+		if err != nil {
+			return fail()
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode < 200 || resp.StatusCode >= 300 {
+			return fail()
+		}
+
+		start := time.Now()
+		var totalBytes int64
+		buf := make([]byte, 32*1024)
+		for {
+			n, readErr := resp.Body.Read(buf)
+			if n > 0 {
+				totalBytes += int64(n)
+			}
+			if readErr != nil {
+				break
+			}
+		}
+
+		elapsed := time.Since(start).Seconds()
+		if totalBytes > 0 && elapsed > 0 {
+			speed := float64(totalBytes) / elapsed
+			speedResult.Speed = &speed
+		}
+
+		data, _ := json.Marshal(speedResult)
 		fn(string(data))
 		return false, nil
 	})

@@ -181,6 +181,15 @@ abstract class Delay with _$Delay {
 }
 
 @freezed
+abstract class ProxySpeedResult with _$ProxySpeedResult {
+  const factory ProxySpeedResult({required String name, double? speed}) =
+      _ProxySpeedResult;
+
+  factory ProxySpeedResult.fromJson(Map<String, Object?> json) =>
+      _$ProxySpeedResultFromJson(json);
+}
+
+@freezed
 abstract class Now with _$Now {
   const factory Now({required String name, required String value}) = _Now;
 

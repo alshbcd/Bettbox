@@ -1134,5 +1134,9 @@
   "iperfErrorServer": "سرور آزمون را رد کرد (خطای {code})",
   "iperfErrorPortInUse": "پورت {port} در حال استفاده است؛ پورت دیگری انتخاب کنید",
   "iperfErrorListen": "راه‌اندازی سرور ممکن نشد",
-  "iperfResult": "نتیجه"
+  "iperfResult": "نتیجه",
+  "speedTestUrl": "URL تست سرعت",
+  "speedTestConcurrency": "تعداد همزمانی تست سرعت",
+  "speed": "سرعت",
+  "testButton": "تست"
 }

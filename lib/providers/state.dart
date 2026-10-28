@@ -356,6 +356,10 @@ List<int> sortOrderByDelay(List<int> values) {
   return _sortOrder(values.length, (a, b) => values[a].compareTo(values[b]));
 }
 
+List<int> sortOrderBySpeed(List<double> values) {
+  return _sortOrder(values.length, (a, b) => values[b].compareTo(values[a]));
+}
+
 List<String> _nameSortKeys(List<Proxy> proxies) {
   return [for (final proxy in proxies) utils.getPinyin(proxy.name)];
 }
@@ -369,16 +373,29 @@ List<int> _delaySortValues(
   ];
 }
 
+List<double> _speedSortValues(
+  List<Proxy> proxies,
+  double? Function(String proxyName)? speedOf,
+) {
+  return [
+    for (final proxy in proxies) _speedSortValue(speedOf?.call(proxy.name)),
+  ];
+}
+
 List<Proxy> sortProxies(
   List<Proxy> proxies,
   ProxiesSortType sortType, {
   int? Function(String proxyName)? delayOf,
+  double? Function(String proxyName)? speedOf,
 }) {
   final order = switch (sortType) {
     ProxiesSortType.none => null,
     ProxiesSortType.name => sortOrderByName(_nameSortKeys(proxies)),
     ProxiesSortType.delay => sortOrderByDelay(
       _delaySortValues(proxies, delayOf),
+    ),
+    ProxiesSortType.speed => sortOrderBySpeed(
+      _speedSortValues(proxies, speedOf),
     ),
   };
   if (order == null) return proxies;
@@ -387,6 +404,9 @@ List<Proxy> sortProxies(
 
 int _delaySortValue(int? delay) =>
     (delay == null || delay == -1) ? 1 << 30 : delay;
+
+double _speedSortValue(double? speed) =>
+    (speed == null || speed <= 0) ? -1 : speed;
 
 List<Proxy>? _reuseOrder(List<Proxy>? previous, List<Proxy> proxies) {
   if (previous == null || previous.length != proxies.length) return null;
@@ -485,22 +505,43 @@ class SortedGroupProxies extends _$SortedGroupProxies {
       );
       delayOf = (proxyName) => lookup(proxyName, group.testUrl);
     }
+    double? Function(String proxyName)? speedOf;
+    if (sortType == ProxiesSortType.speed) {
+      final speedMap = ref.watch(speedDataSourceProvider);
+      speedOf = (proxyName) => speedMap[proxyName];
+    }
     if (proxies.length < backgroundSortThreshold) {
-      return _lastSorted = sortProxies(proxies, sortType, delayOf: delayOf);
+      return _lastSorted = sortProxies(
+        proxies,
+        sortType,
+        delayOf: delayOf,
+        speedOf: speedOf,
+      );
     }
     final pending = _reuseOrder(
       _lastSorted ?? (query.isEmpty ? _orderCache[groupName] : null),
       proxies,
     );
     if (pending == null && query.isNotEmpty) {
-      return _lastSorted = sortProxies(proxies, sortType, delayOf: delayOf);
+      return _lastSorted = sortProxies(
+        proxies,
+        sortType,
+        delayOf: delayOf,
+        speedOf: speedOf,
+      );
     }
 
     var active = true;
     ref.onDispose(() => active = false);
-    final order = sortType == ProxiesSortType.name
-        ? compute(sortOrderByName, _nameSortKeys(proxies))
-        : compute(sortOrderByDelay, _delaySortValues(proxies, delayOf));
+    final Future<List<int>> order;
+    switch (sortType) {
+      case ProxiesSortType.name:
+        order = compute(sortOrderByName, _nameSortKeys(proxies));
+      case ProxiesSortType.speed:
+        order = compute(sortOrderBySpeed, _speedSortValues(proxies, speedOf));
+      default:
+        order = compute(sortOrderByDelay, _delaySortValues(proxies, delayOf));
+    }
     order.then(
       (order) {
         if (!active) return;
@@ -508,7 +549,9 @@ class SortedGroupProxies extends _$SortedGroupProxies {
       },
       onError: (Object _) {
         if (!active) return;
-        state = _remember(sortProxies(proxies, sortType, delayOf: delayOf));
+        state = _remember(
+          sortProxies(proxies, sortType, delayOf: delayOf, speedOf: speedOf),
+        );
       },
     );
     return _lastSorted = pending;
@@ -704,6 +747,16 @@ int? getDelay(Ref ref, {required String proxyName, String? testUrl}) {
     }),
   );
   return delay;
+}
+
+@riverpod
+double? getSpeed(Ref ref, {required String proxyName}) {
+  final proxyCardState = ref.watch(getProxyCardStateProvider(proxyName));
+  return ref.watch(
+    speedDataSourceProvider.select(
+      (state) => state[proxyCardState.proxyName],
+    ),
+  );
 }
 
 @riverpod

@@ -1134,5 +1134,9 @@
   "iperfErrorServer": "サーバーがテストを拒否しました（エラー {code}）",
   "iperfErrorPortInUse": "ポート {port} は使用中です。別のポートを指定してください",
   "iperfErrorListen": "サーバーを起動できません",
-  "iperfResult": "テスト結果"
+  "iperfResult": "テスト結果",
+  "speedTestUrl": "速度テストURL",
+  "speedTestConcurrency": "速度テスト同時実行数",
+  "speed": "速度",
+  "testButton": "テスト"
 }

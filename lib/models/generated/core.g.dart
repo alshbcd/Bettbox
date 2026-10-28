@@ -244,6 +244,15 @@ Map<String, dynamic> _$DelayToJson(_Delay instance) => <String, dynamic>{
   'value': instance.value,
 };
 
+_ProxySpeedResult _$ProxySpeedResultFromJson(Map<String, dynamic> json) =>
+    _ProxySpeedResult(
+      name: json['name'] as String,
+      speed: (json['speed'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$ProxySpeedResultToJson(_ProxySpeedResult instance) =>
+    <String, dynamic>{'name': instance.name, 'speed': instance.speed};
+
 _Now _$NowFromJson(Map<String, dynamic> json) =>
     _Now(name: json['name'] as String, value: json['value'] as String);
 
@@ -362,6 +371,7 @@ const _$ActionMethodEnumMap = {
   ActionMethod.cancelSpeedTest: 'cancelSpeedTest',
   ActionMethod.probeSpeedTest: 'probeSpeedTest',
   ActionMethod.getSpeedTestServers: 'getSpeedTestServers',
+  ActionMethod.proxySpeedTest: 'proxySpeedTest',
   ActionMethod.startStunTest: 'startStunTest',
   ActionMethod.cancelStunTest: 'cancelStunTest',
   ActionMethod.routeTrace: 'routeTrace',

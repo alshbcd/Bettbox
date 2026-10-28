@@ -135,6 +135,12 @@ func handleAction(action *Action, result ActionResult) {
 		data := action.Data.(string)
 		result.success(toolbox.HandleSpeedTestServers(data))
 		return
+	case proxySpeedTestMethod:
+		data := action.Data.(string)
+		handleProxySpeedTest(data, func(value string) {
+			result.success(value)
+		})
+		return
 	case cancelSpeedTestMethod:
 		result.success(toolbox.HandleCancelSpeedTest())
 		return

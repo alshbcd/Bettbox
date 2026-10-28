@@ -9594,6 +9594,36 @@ class AppLocalizations {
   String get iperfResult {
     return Intl.message('Result', name: 'iperfResult', desc: '', args: []);
   }
+
+  /// `Speed test URL`
+  String get speedTestUrl {
+    return Intl.message(
+      'Speed test URL',
+      name: 'speedTestUrl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed test concurrency`
+  String get speedTestConcurrency {
+    return Intl.message(
+      'Speed test concurrency',
+      name: 'speedTestConcurrency',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Speed`
+  String get speed {
+    return Intl.message('Speed', name: 'speed', desc: '', args: []);
+  }
+
+  /// `Test`
+  String get testButton {
+    return Intl.message('Test', name: 'testButton', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

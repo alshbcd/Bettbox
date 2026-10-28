@@ -44,6 +44,10 @@ _AppSettingProps _$AppSettingPropsFromJson(
   logAiSearch: json['logAiSearch'] as bool? ?? true,
   flushDnsOnNetworkChange: json['flushDnsOnNetworkChange'] as bool? ?? false,
   testUrl: json['testUrl'] as String? ?? defaultTestUrl,
+  speedTestUrl: json['speedTestUrl'] as String? ?? defaultSpeedTestUrl,
+  speedTestConcurrency:
+      (json['speedTestConcurrency'] as num?)?.toInt() ??
+      defaultSpeedTestConcurrency,
   showStartSwitch: json['showStartSwitch'] as bool? ?? true,
   startSwitchStyle:
       $enumDecodeNullable(
@@ -149,6 +153,8 @@ Map<String, dynamic> _$AppSettingPropsToJson(_AppSettingProps instance) =>
       'logAiSearch': instance.logAiSearch,
       'flushDnsOnNetworkChange': instance.flushDnsOnNetworkChange,
       'testUrl': instance.testUrl,
+      'speedTestUrl': instance.speedTestUrl,
+      'speedTestConcurrency': instance.speedTestConcurrency,
       'showStartSwitch': instance.showStartSwitch,
       'startSwitchStyle': _$StartSwitchStyleEnumMap[instance.startSwitchStyle]!,
       'startSwitchOnLabel': instance.startSwitchOnLabel,

@@ -1297,6 +1297,109 @@ abstract class _$DelayDataSource extends $Notifier<DelayMap> {
   }
 }
 
+@ProviderFor(SpeedDataSource)
+final speedDataSourceProvider = SpeedDataSourceProvider._();
+
+final class SpeedDataSourceProvider
+    extends $NotifierProvider<SpeedDataSource, SpeedMap> {
+  SpeedDataSourceProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'speedDataSourceProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$speedDataSourceHash();
+
+  @$internal
+  @override
+  SpeedDataSource create() => SpeedDataSource();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(SpeedMap value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<SpeedMap>(value),
+    );
+  }
+}
+
+String _$speedDataSourceHash() => r'44babd99cbe5617cbc70314aea615fde86988702';
+
+abstract class _$SpeedDataSource extends $Notifier<SpeedMap> {
+  SpeedMap build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<SpeedMap, SpeedMap>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<SpeedMap, SpeedMap>,
+              SpeedMap,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
+@ProviderFor(ShowSpeed)
+final showSpeedProvider = ShowSpeedProvider._();
+
+final class ShowSpeedProvider extends $NotifierProvider<ShowSpeed, bool> {
+  ShowSpeedProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'showSpeedProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$showSpeedHash();
+
+  @$internal
+  @override
+  ShowSpeed create() => ShowSpeed();
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(bool value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<bool>(value),
+    );
+  }
+}
+
+String _$showSpeedHash() => r'cc775c000a934743b0ebce46f43ec448a94add17';
+
+abstract class _$ShowSpeed extends $Notifier<bool> {
+  bool build();
+  @$mustCallSuper
+  @override
+  WhenComplete runBuild() {
+    final ref = this.ref as $Ref<bool, bool>;
+    final element =
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<bool, bool>,
+              bool,
+              Object?,
+              Object?
+            >;
+    return element.handleCreate(ref, build);
+  }
+}
+
 @ProviderFor(SystemUiOverlayStyleState)
 final systemUiOverlayStyleStateProvider = SystemUiOverlayStyleStateProvider._();
 

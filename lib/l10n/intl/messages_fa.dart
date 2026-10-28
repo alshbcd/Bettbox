@@ -1889,6 +1889,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sourceIp": MessageLookupByLibrary.simpleMessage("IP مبدا"),
     "specialProxy": MessageLookupByLibrary.simpleMessage("پروکسی ویژه"),
     "specialRules": MessageLookupByLibrary.simpleMessage("قوانین ویژه"),
+    "speed": MessageLookupByLibrary.simpleMessage("سرعت"),
     "speedTest": MessageLookupByLibrary.simpleMessage("تست سرعت"),
     "speedTestAgain": MessageLookupByLibrary.simpleMessage("تست مجدد"),
     "speedTestChangeOutbound": MessageLookupByLibrary.simpleMessage(
@@ -1896,6 +1897,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "speedTestClearHistoryTip": MessageLookupByLibrary.simpleMessage(
       "همه تاریخچه تست پاک شود؟",
+    ),
+    "speedTestConcurrency": MessageLookupByLibrary.simpleMessage(
+      "تعداد همزمانی تست سرعت",
     ),
     "speedTestConnecting": MessageLookupByLibrary.simpleMessage("در حال اتصال"),
     "speedTestConnections": MessageLookupByLibrary.simpleMessage("اتصالات"),
@@ -1969,6 +1973,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "speedTestStart": MessageLookupByLibrary.simpleMessage("شروع تست"),
     "speedTestStreams": m49,
     "speedTestSwitchProvider": m50,
+    "speedTestUrl": MessageLookupByLibrary.simpleMessage("URL تست سرعت"),
     "speedTestUseSystemDns": MessageLookupByLibrary.simpleMessage(
       "تفکیک با DNS سیستم",
     ),
@@ -2034,6 +2039,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tcpConcurrentDesc": MessageLookupByLibrary.simpleMessage(
       "اجازه به اتصال‌های همزمان TCP",
     ),
+    "testButton": MessageLookupByLibrary.simpleMessage("تست"),
     "testUrl": MessageLookupByLibrary.simpleMessage("آدرس تست"),
     "testing": MessageLookupByLibrary.simpleMessage("در حال بررسی"),
     "textScale": MessageLookupByLibrary.simpleMessage("مقیاس متن"),

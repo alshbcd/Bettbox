@@ -1498,6 +1498,22 @@ class AppController {
     _ref.read(delayDataSourceProvider.notifier).setDelay(delay);
   }
 
+  void setSpeed(String proxyName, double? speed) {
+    _ref.read(speedDataSourceProvider.notifier).setSpeed(proxyName, speed);
+  }
+
+  void clearSpeed() {
+    _ref.read(speedDataSourceProvider.notifier).clear();
+  }
+
+  void setShowSpeed(bool value) {
+    _ref.read(showSpeedProvider.notifier).toggle(value);
+  }
+
+  double? getSpeed({required String proxyName}) {
+    return _ref.read(getSpeedProvider(proxyName: proxyName));
+  }
+
   int? getTrayProxyDelay({required String proxyName, String? testUrl}) {
     return _ref.read(getDelayProvider(proxyName: proxyName, testUrl: testUrl));
   }
@@ -1685,6 +1701,14 @@ class AppController {
     required ProxiesSortType sortType,
     String? testUrl,
   }) {
+    if (sortType == ProxiesSortType.speed) {
+      final speedMap = _ref.read(speedDataSourceProvider);
+      return sortProxies(
+        proxies,
+        sortType,
+        speedOf: (proxyName) => speedMap[proxyName],
+      );
+    }
     if (sortType != ProxiesSortType.delay) {
       return sortProxies(proxies, sortType);
     }

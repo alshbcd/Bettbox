@@ -36,6 +36,25 @@ class Utils {
     return const Color(0xFFC57F0A);
   }
 
+  Color? getSpeedColor(double? speed) {
+    if (speed == null) return null;
+    if (speed < 0) return Colors.red;
+    if (speed >= 1024 * 1024) return Colors.green;
+    if (speed >= 100 * 1024) return const Color(0xFFC57F0A);
+    return Colors.red;
+  }
+
+  String formatSpeed(double bytesPerSecond) {
+    if (bytesPerSecond < 0) return 'Timeout';
+    if (bytesPerSecond >= 1024 * 1024) {
+      return '${(bytesPerSecond / (1024 * 1024)).toStringAsFixed(1)} MB/s';
+    }
+    if (bytesPerSecond >= 1024) {
+      return '${(bytesPerSecond / 1024).toStringAsFixed(0)} KB/s';
+    }
+    return '${bytesPerSecond.toStringAsFixed(0)} B/s';
+  }
+
   String countryCodeToEmoji(String countryCode) {
     final String code = countryCode.toUpperCase();
     if (code.length != 2) {

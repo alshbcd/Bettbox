@@ -172,7 +172,11 @@ class _ProxiesViewState extends ConsumerState<ProxiesView> {
           child: DelayTestButton(
             groupName: currentGroupName ?? '',
             onClick: () async {
+              globalState.appController.setShowSpeed(false);
               await _proxiesTabKey.currentState?.delayTestCurrentGroup();
+            },
+            onSpeedClick: () async {
+              await _proxiesTabKey.currentState?.speedTestCurrentGroup();
             },
           ),
         );

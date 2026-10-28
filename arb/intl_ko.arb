@@ -1134,5 +1134,9 @@
   "iperfErrorServer": "서버가 테스트를 거부했습니다 (오류 {code})",
   "iperfErrorPortInUse": "포트 {port}이(가) 이미 사용 중입니다. 다른 포트를 사용하세요",
   "iperfErrorListen": "서버를 시작할 수 없습니다",
-  "iperfResult": "테스트 결과"
+  "iperfResult": "테스트 결과",
+  "speedTestUrl": "속도 테스트 URL",
+  "speedTestConcurrency": "속도 테스트 동시 실행 수",
+  "speed": "속도",
+  "testButton": "테스트"
 }

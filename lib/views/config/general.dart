@@ -316,6 +316,98 @@ class _TestUrlDialog extends ConsumerWidget {
   }
 }
 
+class SpeedTestUrlItem extends ConsumerWidget {
+  const SpeedTestUrlItem({super.key});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final speedTestUrl = ref.watch(
+      appSettingProvider.select((state) => state.speedTestUrl),
+    );
+
+    return ListItem(
+      leading: const Icon(Icons.speed),
+      title: Text(appLocalizations.speedTestUrl),
+      subtitle: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Text(speedTestUrl),
+      ),
+      onTap: () async {
+        final result = await globalState.showCommonDialog<String>(
+          child: InputDialog(
+            title: appLocalizations.speedTestUrl,
+            value: speedTestUrl,
+            resetValue: defaultSpeedTestUrl,
+            validator: (String? inputValue) {
+              if (inputValue == null || inputValue.isEmpty) {
+                return appLocalizations.emptyTip(appLocalizations.speedTestUrl);
+              }
+              if (!inputValue.isHttpUrl) {
+                return appLocalizations.urlTip(appLocalizations.speedTestUrl);
+              }
+              return null;
+            },
+          ),
+        );
+        if (result != null) {
+          ref
+              .read(appSettingProvider.notifier)
+              .updateState((state) => state.copyWith(speedTestUrl: result));
+        }
+      },
+    );
+  }
+}
+
+class SpeedTestConcurrencyItem extends ConsumerWidget {
+  const SpeedTestConcurrencyItem({super.key});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final concurrency = ref.watch(
+      appSettingProvider.select((state) => state.speedTestConcurrency),
+    );
+
+    return ListItem(
+      leading: const Icon(Icons.sync_alt),
+      title: Text(appLocalizations.speedTestConcurrency),
+      subtitle: Text('$concurrency'),
+      onTap: () async {
+        final result = await globalState.showCommonDialog<String>(
+          child: InputDialog(
+            title: appLocalizations.speedTestConcurrency,
+            value: '$concurrency',
+            resetValue: '$defaultSpeedTestConcurrency',
+            keyboardType: TextInputType.number,
+            validator: (String? inputValue) {
+              final value = int.tryParse(inputValue ?? '');
+              if (value == null) {
+                return appLocalizations.numberTip(
+                  appLocalizations.speedTestConcurrency,
+                );
+              }
+              if (value < 1 || value > 32) {
+                return appLocalizations.numberTip(
+                  appLocalizations.speedTestConcurrency,
+                );
+              }
+              return null;
+            },
+          ),
+        );
+        if (result != null) {
+          final value = int.tryParse(result);
+          if (value != null) {
+            ref.read(appSettingProvider.notifier).updateState(
+              (state) => state.copyWith(speedTestConcurrency: value),
+            );
+          }
+        }
+      },
+    );
+  }
+}
+
 class PortItem extends ConsumerWidget {
   const PortItem({super.key});
 
@@ -675,6 +767,8 @@ List<Widget> get generalItems => generateSection(
     const UaItem(),
     if (system.isDesktop) const KeepAliveIntervalItem(),
     const TestUrlItem(),
+    const SpeedTestUrlItem(),
+    const SpeedTestConcurrencyItem(),
     const PortItem(),
     const Ipv6Item(),
     const AllowLanItem(),

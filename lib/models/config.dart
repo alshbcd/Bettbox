@@ -207,6 +207,8 @@ abstract class AppSettingProps with _$AppSettingProps {
     @Default(true) bool logAiSearch,
     @Default(false) bool flushDnsOnNetworkChange,
     @Default(defaultTestUrl) String testUrl,
+    @Default(defaultSpeedTestUrl) String speedTestUrl,
+    @Default(defaultSpeedTestConcurrency) int speedTestConcurrency,
     @Default(true) bool showStartSwitch,
     @Default(StartSwitchStyle.outlined) StartSwitchStyle startSwitchStyle,
     String? startSwitchOnLabel,

@@ -1529,6 +1529,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sourceIp": MessageLookupByLibrary.simpleMessage("送信元IP"),
     "specialProxy": MessageLookupByLibrary.simpleMessage("特殊プロキシ"),
     "specialRules": MessageLookupByLibrary.simpleMessage("特殊ルール"),
+    "speed": MessageLookupByLibrary.simpleMessage("速度"),
     "speedTest": MessageLookupByLibrary.simpleMessage("速度テスト"),
     "speedTestAgain": MessageLookupByLibrary.simpleMessage("再測定"),
     "speedTestChangeOutbound": MessageLookupByLibrary.simpleMessage(
@@ -1537,6 +1538,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "speedTestClearHistoryTip": MessageLookupByLibrary.simpleMessage(
       "すべての測定履歴を削除しますか？",
     ),
+    "speedTestConcurrency": MessageLookupByLibrary.simpleMessage("速度テスト同時実行数"),
     "speedTestConnecting": MessageLookupByLibrary.simpleMessage("接続中"),
     "speedTestConnections": MessageLookupByLibrary.simpleMessage("接続方式"),
     "speedTestConnectionsDesc": m46,
@@ -1601,6 +1603,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "speedTestStart": MessageLookupByLibrary.simpleMessage("測定開始"),
     "speedTestStreams": m49,
     "speedTestSwitchProvider": m50,
+    "speedTestUrl": MessageLookupByLibrary.simpleMessage("速度テストURL"),
     "speedTestUseSystemDns": MessageLookupByLibrary.simpleMessage(
       "システム DNS で解決",
     ),
@@ -1656,6 +1659,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tab": MessageLookupByLibrary.simpleMessage("タブ"),
     "tcpConcurrent": MessageLookupByLibrary.simpleMessage("TCP並列接続"),
     "tcpConcurrentDesc": MessageLookupByLibrary.simpleMessage("TCPの同時並列接続を許可"),
+    "testButton": MessageLookupByLibrary.simpleMessage("テスト"),
     "testUrl": MessageLookupByLibrary.simpleMessage("テストURL"),
     "testing": MessageLookupByLibrary.simpleMessage("検出中"),
     "textScale": MessageLookupByLibrary.simpleMessage("テキスト倍率"),

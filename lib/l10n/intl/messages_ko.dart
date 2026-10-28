@@ -1525,11 +1525,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "sourceIp": MessageLookupByLibrary.simpleMessage("출발지 IP"),
     "specialProxy": MessageLookupByLibrary.simpleMessage("특수 프록시"),
     "specialRules": MessageLookupByLibrary.simpleMessage("특수 규칙"),
+    "speed": MessageLookupByLibrary.simpleMessage("속도"),
     "speedTest": MessageLookupByLibrary.simpleMessage("속도 테스트"),
     "speedTestAgain": MessageLookupByLibrary.simpleMessage("다시 측정"),
     "speedTestChangeOutbound": MessageLookupByLibrary.simpleMessage("아웃바운드 변경"),
     "speedTestClearHistoryTip": MessageLookupByLibrary.simpleMessage(
       "모든 측정 기록을 삭제할까요?",
+    ),
+    "speedTestConcurrency": MessageLookupByLibrary.simpleMessage(
+      "속도 테스트 동시 실행 수",
     ),
     "speedTestConnecting": MessageLookupByLibrary.simpleMessage("연결 중"),
     "speedTestConnections": MessageLookupByLibrary.simpleMessage("연결 방식"),
@@ -1599,6 +1603,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "speedTestStart": MessageLookupByLibrary.simpleMessage("측정 시작"),
     "speedTestStreams": m49,
     "speedTestSwitchProvider": m50,
+    "speedTestUrl": MessageLookupByLibrary.simpleMessage("속도 테스트 URL"),
     "speedTestUseSystemDns": MessageLookupByLibrary.simpleMessage(
       "시스템 DNS로 확인",
     ),
@@ -1654,6 +1659,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tcpConcurrentDesc": MessageLookupByLibrary.simpleMessage(
       "TCP 동시 다중 연결 허용",
     ),
+    "testButton": MessageLookupByLibrary.simpleMessage("테스트"),
     "testUrl": MessageLookupByLibrary.simpleMessage("테스트 URL"),
     "testing": MessageLookupByLibrary.simpleMessage("검사 중"),
     "textScale": MessageLookupByLibrary.simpleMessage("텍스트 배율"),

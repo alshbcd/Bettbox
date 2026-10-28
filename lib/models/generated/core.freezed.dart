@@ -3190,6 +3190,279 @@ as int?,
 
 
 /// @nodoc
+mixin _$ProxySpeedResult {
+
+ String get name; double? get speed;
+/// Create a copy of ProxySpeedResult
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$ProxySpeedResultCopyWith<ProxySpeedResult> get copyWith => _$ProxySpeedResultCopyWithImpl<ProxySpeedResult>(this as ProxySpeedResult, _$identity);
+
+  /// Serializes this ProxySpeedResult to a JSON map.
+  Map<String, dynamic> toJson();
+
+
+@override
+bool operator ==(Object other) {
+  final _this = this as ProxySpeedResult;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ProxySpeedResult&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.speed, _this.speed) || other.speed == _this.speed));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+  final _this = this as ProxySpeedResult;
+  return Object.hash(runtimeType,_this.name,_this.speed);
+}
+
+@override
+String toString() {
+  final _this = this as ProxySpeedResult;
+  return 'ProxySpeedResult(name: ${_this.name}, speed: ${_this.speed})';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $ProxySpeedResultCopyWith<$Res>  {
+  factory $ProxySpeedResultCopyWith(ProxySpeedResult value, $Res Function(ProxySpeedResult) _then) = _$ProxySpeedResultCopyWithImpl;
+@useResult
+$Res call({
+ String name, double? speed
+});
+
+
+
+
+}
+/// @nodoc
+class _$ProxySpeedResultCopyWithImpl<$Res>
+    implements $ProxySpeedResultCopyWith<$Res> {
+  _$ProxySpeedResultCopyWithImpl(this._self, this._then);
+
+  final ProxySpeedResult _self;
+  final $Res Function(ProxySpeedResult) _then;
+
+/// Create a copy of ProxySpeedResult
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? name = null,Object? speed = freezed,}) {
+  return _then(ProxySpeedResult(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,speed: freezed == speed ? _self.speed : speed // ignore: cast_nullable_to_non_nullable
+as double?,
+  ));
+}
+
+}
+
+
+/// Adds pattern-matching-related methods to [ProxySpeedResult].
+extension ProxySpeedResultPatterns on ProxySpeedResult {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _ProxySpeedResult value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _ProxySpeedResult() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _ProxySpeedResult value)  $default,){
+final _that = this;
+switch (_that) {
+case _ProxySpeedResult():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _ProxySpeedResult value)?  $default,){
+final _that = this;
+switch (_that) {
+case _ProxySpeedResult() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String name,  double? speed)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _ProxySpeedResult() when $default != null:
+return $default(_that.name,_that.speed);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String name,  double? speed)  $default,) {final _that = this;
+switch (_that) {
+case _ProxySpeedResult():
+return $default(_that.name,_that.speed);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String name,  double? speed)?  $default,) {final _that = this;
+switch (_that) {
+case _ProxySpeedResult() when $default != null:
+return $default(_that.name,_that.speed);case _:
+  return null;
+
+}
+}
+
+}
+
+/// @nodoc
+@JsonSerializable()
+
+class _ProxySpeedResult implements ProxySpeedResult {
+  const _ProxySpeedResult({required this.name, this.speed});
+  factory _ProxySpeedResult.fromJson(Map<String, dynamic> json) => _$ProxySpeedResultFromJson(json);
+
+@override final  String name;
+@override final  double? speed;
+
+/// Create a copy of ProxySpeedResult
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$ProxySpeedResultCopyWith<_ProxySpeedResult> get copyWith => __$ProxySpeedResultCopyWithImpl<_ProxySpeedResult>(this, _$identity);
+
+@override
+Map<String, dynamic> toJson() {
+  return _$ProxySpeedResultToJson(this, );
+}
+
+@override
+bool operator ==(Object other) {
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _ProxySpeedResult&&(identical(other.name, name) || other.name == name)&&(identical(other.speed, speed) || other.speed == speed));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode {
+    return Object.hash(runtimeType,name,speed);
+}
+
+@override
+String toString() {
+    return 'ProxySpeedResult(name: $name, speed: $speed)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$ProxySpeedResultCopyWith<$Res> implements $ProxySpeedResultCopyWith<$Res> {
+  factory _$ProxySpeedResultCopyWith(_ProxySpeedResult value, $Res Function(_ProxySpeedResult) _then) = __$ProxySpeedResultCopyWithImpl;
+@override @useResult
+$Res call({
+ String name, double? speed
+});
+
+
+
+
+}
+/// @nodoc
+class __$ProxySpeedResultCopyWithImpl<$Res>
+    implements _$ProxySpeedResultCopyWith<$Res> {
+  __$ProxySpeedResultCopyWithImpl(this._self, this._then);
+
+  final _ProxySpeedResult _self;
+  final $Res Function(_ProxySpeedResult) _then;
+
+/// Create a copy of ProxySpeedResult
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? name = null,Object? speed = freezed,}) {
+  return _then(_ProxySpeedResult(
+name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
+as String,speed: freezed == speed ? _self.speed : speed // ignore: cast_nullable_to_non_nullable
+as double?,
+  ));
+}
+
+
+}
+
+
+/// @nodoc
 mixin _$Now {
 
  String get name; String get value;

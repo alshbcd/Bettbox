@@ -124,11 +124,11 @@ class _ProfilesViewState extends ConsumerState<ProfilesView> {
             ? getFloatingBottomBarFABReserveHeight(context)
             : 0,
       ),
-      child: FloatingActionButton.extended(
+      child: FloatingActionButton(
         heroTag: null,
         onPressed: _handleShowAddExtendPage,
-        icon: const Icon(Icons.add),
-        label: Text(appLocalizations.addProfile),
+        tooltip: appLocalizations.addProfile,
+        child: const Icon(Icons.add),
       ),
     );
   }

@@ -1508,6 +1508,83 @@ final class GetDelayFamily extends $Family
   String toString() => r'getDelayProvider';
 }
 
+@ProviderFor(getSpeed)
+final getSpeedProvider = GetSpeedFamily._();
+
+final class GetSpeedProvider
+    extends $FunctionalProvider<double?, double?, double?>
+    with $Provider<double?> {
+  GetSpeedProvider._({
+    required GetSpeedFamily super.from,
+    required String super.argument,
+  }) : super(
+         retry: null,
+         name: r'getSpeedProvider',
+         isAutoDispose: true,
+         dependencies: null,
+         $allTransitiveDependencies: null,
+       );
+
+  @override
+  String debugGetCreateSourceHash() => _$getSpeedHash();
+
+  @override
+  String toString() {
+    return r'getSpeedProvider'
+        ''
+        '($argument)';
+  }
+
+  @$internal
+  @override
+  $ProviderElement<double?> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
+
+  @override
+  double? create(Ref ref) {
+    final argument = this.argument as String;
+    return getSpeed(ref, proxyName: argument);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(double? value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<double?>(value),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is GetSpeedProvider && other.argument == argument;
+  }
+
+  @override
+  int get hashCode {
+    return argument.hashCode;
+  }
+}
+
+String _$getSpeedHash() => r'b208b5a4b7a46b760e8476d870e5b36986b92c03';
+
+final class GetSpeedFamily extends $Family
+    with $FunctionalFamilyOverride<double?, String> {
+  GetSpeedFamily._()
+    : super(
+        retry: null,
+        name: r'getSpeedProvider',
+        dependencies: null,
+        $allTransitiveDependencies: null,
+        isAutoDispose: true,
+      );
+
+  GetSpeedProvider call({required String proxyName}) =>
+      GetSpeedProvider._(argument: proxyName, from: this);
+
+  @override
+  String toString() => r'getSpeedProvider';
+}
+
 @ProviderFor(selectedMap)
 final selectedMapProvider = SelectedMapProvider._();
 

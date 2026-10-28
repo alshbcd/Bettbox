@@ -389,6 +389,27 @@ class ClashCore {
     }
   }
 
+  Future<ProxySpeedResult> getSpeed(
+    String proxyName,
+    String url, {
+    int timeout = defaultSpeedTestTimeout,
+  }) async {
+    final data = await clashInterface.proxySpeedTest(
+      proxyName,
+      url,
+      timeout: timeout,
+    );
+    if (data.isEmpty) {
+      throw Exception('Empty speed response');
+    }
+    try {
+      return ProxySpeedResult.fromJson(json.decode(data));
+    } catch (e) {
+      commonPrint.warn('Failed to parse speed: $e');
+      rethrow;
+    }
+  }
+
   Future<Map<String, dynamic>> getConfig(
     String id, {
     String? ageSecretKey,

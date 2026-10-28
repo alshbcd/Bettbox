@@ -26,11 +26,14 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.appshub.bettbox"
+        applicationId = "com.lsh.bettbox"
         minSdk = 26
         targetSdk = 36
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+        ndk {
+            abiFilters += "arm64-v8a"
+        }
     }
 
     signingConfigs {
@@ -60,6 +63,10 @@ android {
     packaging {
         jniLibs {
             useLegacyPackaging = true
+            keepDebugSymbols += "**/libmeta.so"
+            // 只出 arm64-v8a。部分插件 AAR 自带 v7a/x86_64 的 .so，
+            // 而内核 libmeta.so 只有 arm64，其它 ABI 装上也跑不起来，直接排除。
+            excludes += listOf("lib/armeabi-v7a/**", "lib/x86_64/**", "lib/x86/**")
         }
     }
 

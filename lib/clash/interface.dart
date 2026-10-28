@@ -46,6 +46,12 @@ mixin ClashInterface {
 
   Future<String> asyncTestDelay(String url, String proxyName);
 
+  Future<String> proxySpeedTest(
+    String proxyName,
+    String url, {
+    int timeout = defaultSpeedTestTimeout,
+  });
+
   FutureOr<String> updateConfig(UpdateParams updateParams);
 
   FutureOr<SetupResult> setupConfig(SetupParams setupParams);
@@ -573,6 +579,27 @@ abstract class ClashHandlerInterface with ClashInterface {
       timeout: Duration(milliseconds: 6000),
       onTimeout: () {
         return json.encode(Delay(name: proxyName, value: -1, url: url));
+      },
+    );
+  }
+
+  @override
+  Future<String> proxySpeedTest(
+    String proxyName,
+    String url, {
+    int timeout = defaultSpeedTestTimeout,
+  }) {
+    final speedParams = {
+      'proxy-name': proxyName,
+      'url': url,
+      'timeout': timeout,
+    };
+    return invoke<String>(
+      method: ActionMethod.proxySpeedTest,
+      data: json.encode(speedParams),
+      timeout: Duration(milliseconds: timeout + 5000),
+      onTimeout: () {
+        return json.encode(ProxySpeedResult(name: proxyName));
       },
     );
   }

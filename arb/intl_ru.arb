@@ -1138,5 +1138,9 @@
   "iperfErrorServer": "Сервер отклонил тест (ошибка {code})",
   "iperfErrorPortInUse": "Порт {port} уже занят. Выберите другой",
   "iperfErrorListen": "Не удалось запустить сервер",
-  "iperfResult": "Результат"
+  "iperfResult": "Результат",
+  "speedTestUrl": "URL теста скорости",
+  "speedTestConcurrency": "Параллельные тесты скорости",
+  "speed": "Скорость",
+  "testButton": "Тест"
 }

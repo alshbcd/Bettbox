@@ -132,6 +132,87 @@ class ProxyDelayText extends StatelessWidget {
   }
 }
 
+class ProxyTestText extends ConsumerWidget {
+  final Proxy proxy;
+  final String? testUrl;
+
+  const ProxyTestText({super.key, required this.proxy, this.testUrl});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final showSpeed = ref.watch(showSpeedProvider);
+    if (showSpeed) {
+      return ProxySpeedText(proxy: proxy);
+    }
+    return ProxyDelayText(proxy: proxy, testUrl: testUrl);
+  }
+}
+
+class ProxySpeedText extends StatelessWidget {
+  final Proxy proxy;
+
+  const ProxySpeedText({super.key, required this.proxy});
+
+  bool get _isNonTestableProxy {
+    return switch (proxy.name.toUpperCase()) {
+      'REJECT' || 'REJECT-DROP' || 'PASS' => true,
+      _ => proxy.type.toUpperCase() == 'REMATCH',
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_isNonTestableProxy) {
+      return const SizedBox.shrink();
+    }
+    final labelSmallHeight = globalState.measure.labelSmallHeight;
+    return SizedBox(
+      height: labelSmallHeight,
+      child: Consumer(
+        builder: (context, ref, _) {
+          final speed = ref.watch(getSpeedProvider(proxyName: proxy.name));
+
+          if (speed == -1) {
+            return SizedBox.square(
+              dimension: labelSmallHeight,
+              child: Padding(
+                padding: EdgeInsets.all(labelSmallHeight * 0.18),
+                child: const CircularProgressIndicator(strokeWidth: 2),
+              ),
+            );
+          }
+
+          if (speed == null) {
+            return SizedBox.square(
+              dimension: labelSmallHeight,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () => proxySpeedTest(proxy),
+                child: Icon(
+                  Icons.speed,
+                  size: labelSmallHeight,
+                  color: context.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            );
+          }
+
+          return GestureDetector(
+            onTap: () => proxySpeedTest(proxy),
+            child: Text(
+              utils.formatSpeed(speed),
+              style: context.textTheme.labelSmall?.copyWith(
+                overflow: TextOverflow.ellipsis,
+                color: utils.getSpeedColor(speed),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class ProxyCard extends StatelessWidget {
   static final _emojiRegex = emojiRegex();
   static final Map<String, bool> _emojiMatchCache = {};
@@ -298,7 +379,7 @@ class ProxyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final delayText = ProxyDelayText(proxy: proxy, testUrl: testUrl);
+    final delayText = ProxyTestText(proxy: proxy, testUrl: testUrl);
     final nameTextWidget = _buildProxyNameText(context);
     final footerWidget = _buildFooter(context, delayText);
     return Consumer(

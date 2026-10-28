@@ -69,6 +69,12 @@ double getFloatingBottomBarFABReserveHeight(BuildContext context) {
 
 const defaultTestUrl = 'https://www.apple.com/library/test/success.html';
 
+// Proxy speed test defaults
+const defaultSpeedTestUrl =
+    'https://speed.cloudflare.com/__down?bytes=10000000';
+const defaultSpeedTestConcurrency = 5;
+const defaultSpeedTestTimeout = 10000;
+
 // Preset test URLs
 const presetTestUrls = [
   'https://g.cn/generate_204',

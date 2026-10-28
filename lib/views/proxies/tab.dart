@@ -82,6 +82,16 @@ class ProxiesTabViewState extends ConsumerState<ProxiesTabView>
     );
   }
 
+  Future<void> speedTestCurrentGroup() async {
+    final currentGroupName = globalState.appController.getCurrentGroupName();
+    final currentState = _keyMap[currentGroupName]?.currentState;
+    await speedTest(
+      currentState?.proxies ?? [],
+      testUrl: currentState?.testUrl,
+      groupName: currentGroupName,
+    );
+  }
+
   Widget _buildMoreButton() {
     return Consumer(
       builder: (_, ref, _) {
@@ -474,11 +484,13 @@ class _ProxyGroupViewState extends ConsumerState<ProxyGroupView> {
 class DelayTestButton extends ConsumerStatefulWidget {
   final String groupName;
   final Future Function() onClick;
+  final Future Function()? onSpeedClick;
 
   const DelayTestButton({
     super.key,
     required this.groupName,
     required this.onClick,
+    this.onSpeedClick,
   });
 
   @override
@@ -490,6 +502,8 @@ class _DelayTestButtonState extends ConsumerState<DelayTestButton>
   late AnimationController _controller;
   late Animation<double> _scale;
 
+  bool _isExpanded = false;
+
   bool get _isTesting => delayTestCoordinator.isTestingGroup(widget.groupName);
 
   Future<void> _healthcheck() async {
@@ -497,6 +511,27 @@ class _DelayTestButtonState extends ConsumerState<DelayTestButton>
       return;
     }
     await widget.onClick();
+  }
+
+  void _toggle() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+    });
+  }
+
+  Future<void> _handleDelayTest() async {
+    setState(() {
+      _isExpanded = false;
+    });
+    await _healthcheck();
+  }
+
+  Future<void> _handleSpeedTest() async {
+    setState(() {
+      _isExpanded = false;
+    });
+    if (delayTestCoordinator.isTesting) return;
+    await widget.onSpeedClick?.call();
   }
 
   void _handleTestingChanged() {
@@ -544,40 +579,67 @@ class _DelayTestButtonState extends ConsumerState<DelayTestButton>
     return AnimatedBuilder(
       animation: _controller.view,
       builder: (_, child) {
-        final showLoading = _isTesting && _controller.isCompleted;
+        final showLoading =
+            _isTesting && _controller.isCompleted && !_isExpanded;
         final contentScale = showLoading ? 0.0 : _scale.value;
-        return Stack(
-          alignment: Alignment.center,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            FloatingActionButton.extended(
-              heroTag: null,
-              onPressed:
-                  delayTestCoordinator.isTesting || widget.groupName.isEmpty
-                  ? null
-                  : _healthcheck,
-              icon: Transform.scale(
-                scale: contentScale,
-                child: const Icon(Icons.network_ping),
+            if (_isExpanded) ...[
+              FadeScaleEnterBox(
+                child: FloatingActionButton.small(
+                  heroTag: null,
+                  onPressed: _isTesting ? null : _handleDelayTest,
+                  child: const Icon(Icons.network_ping, size: 20),
+                ),
               ),
-              label: Transform.scale(
-                scale: contentScale,
-                child: Text(appLocalizations.startTest),
+              const SizedBox(height: 8),
+              FadeScaleEnterBox(
+                child: FloatingActionButton.small(
+                  heroTag: null,
+                  onPressed: _isTesting ? null : _handleSpeedTest,
+                  child: const Icon(Icons.speed, size: 20),
+                ),
               ),
-            ),
-            if (showLoading)
-              IgnorePointer(
-                child: SizedBox(
-                  width: 30,
-                  height: 16,
-                  child: OverflowBox(
-                    maxWidth: 30,
-                    maxHeight: 16,
-                    child: SpinKitThreeBounce(
-                      color: context.colorScheme.onPrimaryContainer,
-                      size: 16,
+              const SizedBox(height: 8),
+            ],
+            if (_isExpanded)
+              FloatingActionButton(
+                heroTag: null,
+                onPressed: _toggle,
+                child: const Icon(Icons.close),
+              )
+            else
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  FloatingActionButton(
+                    heroTag: null,
+                    onPressed: _isTesting || widget.groupName.isEmpty
+                        ? null
+                        : _toggle,
+                    child: Transform.scale(
+                      scale: contentScale,
+                      child: const Icon(Icons.bolt),
                     ),
                   ),
-                ),
+                  if (showLoading)
+                    IgnorePointer(
+                      child: SizedBox(
+                        width: 30,
+                        height: 16,
+                        child: OverflowBox(
+                          maxWidth: 30,
+                          maxHeight: 16,
+                          child: SpinKitThreeBounce(
+                            color: context.colorScheme.onPrimaryContainer,
+                            size: 16,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
               ),
           ],
         );

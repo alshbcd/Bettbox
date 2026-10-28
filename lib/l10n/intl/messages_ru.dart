@@ -1924,6 +1924,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sourceIp": MessageLookupByLibrary.simpleMessage("IP источника"),
     "specialProxy": MessageLookupByLibrary.simpleMessage("Специальный прокси"),
     "specialRules": MessageLookupByLibrary.simpleMessage("Специальные правила"),
+    "speed": MessageLookupByLibrary.simpleMessage("Скорость"),
     "speedTest": MessageLookupByLibrary.simpleMessage("Тест скорости"),
     "speedTestAgain": MessageLookupByLibrary.simpleMessage("Повторить"),
     "speedTestChangeOutbound": MessageLookupByLibrary.simpleMessage(
@@ -1931,6 +1932,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "speedTestClearHistoryTip": MessageLookupByLibrary.simpleMessage(
       "Очистить всю историю тестов?",
+    ),
+    "speedTestConcurrency": MessageLookupByLibrary.simpleMessage(
+      "Параллельные тесты скорости",
     ),
     "speedTestConnecting": MessageLookupByLibrary.simpleMessage("Подключение"),
     "speedTestConnections": MessageLookupByLibrary.simpleMessage("Соединения"),
@@ -2010,6 +2014,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "speedTestStart": MessageLookupByLibrary.simpleMessage("Начать тест"),
     "speedTestStreams": m49,
     "speedTestSwitchProvider": m50,
+    "speedTestUrl": MessageLookupByLibrary.simpleMessage("URL теста скорости"),
     "speedTestUseSystemDns": MessageLookupByLibrary.simpleMessage(
       "Разрешать через системный DNS",
     ),
@@ -2081,6 +2086,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "tcpConcurrentDesc": MessageLookupByLibrary.simpleMessage(
       "Разрешить параллельные TCP-соединения",
     ),
+    "testButton": MessageLookupByLibrary.simpleMessage("Тест"),
     "testUrl": MessageLookupByLibrary.simpleMessage("URL теста"),
     "testing": MessageLookupByLibrary.simpleMessage("Проверка"),
     "textScale": MessageLookupByLibrary.simpleMessage("Масштаб текста"),

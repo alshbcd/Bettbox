@@ -10,6 +10,8 @@ part 'generated/app.freezed.dart';
 
 typedef DelayMap = Map<String, Map<String, int?>>;
 
+typedef SpeedMap = Map<String, double?>;
+
 @freezed
 abstract class AppState with _$AppState {
   const factory AppState({
@@ -20,6 +22,8 @@ abstract class AppState with _$AppState {
     @Default(0) int sortNum,
     required Size viewSize,
     @Default({}) DelayMap delayMap,
+    @Default({}) SpeedMap speedMap,
+    @Default(false) bool showSpeed,
     @Default([]) List<Group> groups,
     @Default(0) int checkIpNum,
     required Brightness brightness,

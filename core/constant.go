@@ -96,6 +96,17 @@ type TestDelayParams struct {
 	Timeout   int64  `json:"timeout"`
 }
 
+type ProxySpeedTestParams struct {
+	ProxyName string `json:"proxy-name"`
+	Url       string `json:"url"`
+	Timeout   int64  `json:"timeout"`
+}
+
+type ProxySpeedResult struct {
+	Name  string   `json:"name"`
+	Speed *float64 `json:"speed"`
+}
+
 type ExternalProvider struct {
 	Name             string                     `json:"name"`
 	Type             string                     `json:"type"`
@@ -164,6 +175,7 @@ const (
 	cancelSpeedTestMethod                Method = "cancelSpeedTest"
 	probeSpeedTestMethod                 Method = "probeSpeedTest"
 	getSpeedTestServersMethod            Method = "getSpeedTestServers"
+	proxySpeedTestMethod                 Method = "proxySpeedTest"
 	startStunTestMethod                  Method = "startStunTest"
 	cancelStunTestMethod                 Method = "cancelStunTest"
 	startIperfServerMethod               Method = "startIperfServer"

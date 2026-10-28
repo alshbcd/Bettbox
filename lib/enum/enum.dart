@@ -105,7 +105,7 @@ enum NavigationItemMode { mobile, desktop, more }
 
 enum Network { tcp, udp }
 
-enum ProxiesSortType { none, delay, name }
+enum ProxiesSortType { none, delay, name, speed }
 
 enum TunStack { gvisor, system, mixed, mips }
 
@@ -282,6 +282,7 @@ enum ActionMethod {
   cancelSpeedTest,
   probeSpeedTest,
   getSpeedTestServers,
+  proxySpeedTest,
   startStunTest,
   cancelStunTest,
   routeTrace,
